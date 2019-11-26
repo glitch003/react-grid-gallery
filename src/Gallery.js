@@ -2,6 +2,9 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Lightbox from 'react-images'
 import Image from './Image.js'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
+const IMAGES_PER_PAGE = 12
 
 class Gallery extends Component {
   constructor (props) {
@@ -12,7 +15,8 @@ class Gallery extends Component {
       thumbnails: [],
       lightboxIsOpen: this.props.isOpen,
       currentImage: this.props.currentImage,
-      containerWidth: 0
+      containerWidth: 0,
+      imagesShown: 40
     }
 
     this.onResize = this.onResize.bind(this)
@@ -242,7 +246,8 @@ class Gallery extends Component {
   }
 
   render () {
-    var images = this.state.thumbnails.map((item, idx) => {
+    const { imagesShown } = this.state
+    var images = this.state.thumbnails.slice(0, imagesShown).map((item, idx) => {
       return <Image
         key={'Image-' + idx + '-' + item.src}
         item={item}
@@ -268,6 +273,7 @@ class Gallery extends Component {
       backgroundColor: 'transparent',
       width: '100%'
     }
+
     return (
       <div
         id={this.props.id}
@@ -279,7 +285,20 @@ class Gallery extends Component {
           ref={(c) => c && c.contentWindow &&
                  c.contentWindow.addEventListener('resize', this.onResize)}
         />
-        {images}
+
+        <InfiniteScroll
+          dataLength={images.length} // This is important field to render the next data
+          next={() => {
+            this.setState(function (prevState, props) {
+              return { imagesShown: prevState.imagesShown + IMAGES_PER_PAGE }
+            })
+          }}
+          hasMore={imagesShown < this.state.thumbnails.length}
+          loader={<h4>Loading...</h4>}
+        >
+          {images}
+        </InfiniteScroll>
+
         <Lightbox
           images={this.props.images}
           backdropClosesModal={this.props.backdropClosesModal}
