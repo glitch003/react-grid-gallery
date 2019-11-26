@@ -1,3 +1,7 @@
+# Fork Info
+
+This fork adds infinite scroll of thumbnails so if you have a giant gallery of images it won't load all the thumbnails at once.
+
 # React Grid Gallery
 
 Justified image gallery component for [React](http://facebook.github.io/react/) inspired by [Google Photos](https://photos.google.com/) and based upon [React Images](https://github.com/jossmac/react-images).
