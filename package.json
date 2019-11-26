@@ -4,8 +4,9 @@
   "description": "Justified gallery component for React.",
   "main": "lib/Gallery.js",
   "dependencies": {
+    "prop-types": "^15.5.8",
     "react-images": "^0.5.16",
-    "prop-types": "^15.5.8"
+    "react-infinite-scroll-component": "^5.0.4"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
